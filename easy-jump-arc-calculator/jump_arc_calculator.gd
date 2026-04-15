@@ -13,7 +13,7 @@ class_name EasyJumpArc
 ##presumed movement speed of character
 @export_range(0, 1024, 1.0, "prefer_slider") var horizontal_velocity : float = 64.0
 
-@export_category("Time Components")
+@export_category("Time Component")
 ##time it takes for character to reach peak jump height
 @export_range(0.01, 1.99, 0.1, "prefer_slider") var time_to_peak : float = 1.0
 
@@ -27,9 +27,19 @@ class_name EasyJumpArc
 ##how many points are used when drawing jump arc. More points = higher resolution
 @export_range(1, 100, 1.0, "prefer_slider") var point_count : int = 50
 
-@export_category("Label")
+@export_category("Label Parameters")
 ##set info label to visible on runtime
 @export var visible_info : bool = true
+##option to select whether to display peak in absolute pixels or relative to character height
+@export var absolute_peak : bool = true
+##option to select wheter to display center in absolute pixels or relative to character size
+@export var absolute_center : bool = true
+
+@export_category("Character Parameters")
+##height of characterBody parent so peak can be calculated in terms of character height
+@export var character_height : float = 16.0
+##width of characterBody parent so center can be calculated in terms of character width
+@export var character_width : float = 16.0
 
 ##contains information on peak, center, time it takes to reach peak height, time it takes to reach floor
 @onready var info: Label = $Info
@@ -53,15 +63,17 @@ var center : Vector2 #= 0.5 * Vector2(horizontal_velocity, peak)
 var endpoint_peak : Vector2
 var endpoint_floor : Vector2
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	#update values each frame
 	peak = (jump_velocity * time_to_peak) - (0.5 * rising_gravity * time_to_peak * time_to_peak)
 	center = Vector2((position.x + endpoint_floor.x)/2, (position.y + peak)/2)
-	info.text = str("Peak: %.2fpx\nCenter: %.2fpx, %.2fpx, \nTime to peak %.2fs \nTime to floor: %.2fs" % [peak, center.x, center.y, time_to_peak, time_to_floor])
+	info.text = str("Peak: %s \nCenter: %s \nTime to peak %.2fs \nTime to floor: %.2fs" % [peak_to_string(), center_to_string(), time_to_peak, time_to_floor])
 	peak_angle = atan2(jump_velocity, horizontal_velocity)
 	time_to_floor = sqrt(abs(2 * -peak/falling_gravity))
 	
 	if Engine.is_editor_hint(): queue_redraw()
 	
+	#hide info label if visible_info flag is set to false
 	if !Engine.is_editor_hint(): $Info.visible = visible_info
 		
 func _draw() -> void:
@@ -74,3 +86,12 @@ func _draw() -> void:
 		endpoint_floor = Vector2(endpoint_peak.x + horizontal_velocity * time_to_floor, 0)
 		draw_line(endpoint_peak, endpoint_floor, line_color_b, line_thickness)
 	
+##convert peak from absolute terms to relative terms if absolute_peak is set to false
+func peak_to_string() -> String:
+	if absolute_peak: return "%.2fpx" % peak
+	else: return "%.2f character heights" % (peak/character_height)
+
+##convert center from absolute terms to relative terms if absolute_center is set to false
+func center_to_string() -> String:
+	if absolute_center: return "%.2fpx, %.2fpx" % [center.x, center.y]
+	else: return "%.2f character widths, %.2f character heights" % [center.x/character_width, center.y/character_height]

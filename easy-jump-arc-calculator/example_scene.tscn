@@ -25,6 +25,7 @@ texture = SubResource("PlaceholderTexture2D_m0nlj")
 
 [node name="JumpArcCalculator" parent="ExampleCharacter" unique_id=1011199421 instance=ExtResource("2_5xswu")]
 time_to_peak = 1.01
+visible_info = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1279123065]
 
@@ -33,3 +34,4 @@ position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_m0nlj")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=373758121]
+offset = Vector2(0, -120)

@@ -10,10 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Easy Jump Arc Calculator"
+config/name="Jump Arc Calculator"
 run/main_scene="uid://c2h2lp34jhdol"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [display]
 
