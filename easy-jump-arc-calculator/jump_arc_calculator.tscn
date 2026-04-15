@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://uautgfn7oanb"]
+
+[ext_resource type="Script" uid="uid://hjprjkchufj6" path="res://jump_arc_calculator.gd" id="1_vijr8"]
+
+[node name="JumpArc" type="Node2D" unique_id=1011199421]
+script = ExtResource("1_vijr8")
+
+[node name="Info" type="Label" parent="." unique_id=157538602]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Peak: 64.00px
+Center: 52.97px, 32.00px, 
+Time to peak 1.00s 
+Time to floor: 0.66s"

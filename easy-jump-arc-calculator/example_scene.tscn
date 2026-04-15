@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://c2h2lp34jhdol"]
+
+[ext_resource type="Script" uid="uid://b1jdof3i1gql2" path="res://example_character.gd" id="1_uabj3"]
+[ext_resource type="PackedScene" uid="uid://uautgfn7oanb" path="res://jump_arc_calculator.tscn" id="2_5xswu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdwhr"]
+size = Vector2(16, 16)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_m0nlj"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0nlj"]
+size = Vector2(266, 16)
+
+[node name="ExampleScene" type="Node2D" unique_id=1075721659]
+
+[node name="ExampleCharacter" type="CharacterBody2D" parent="." unique_id=740284445]
+script = ExtResource("1_uabj3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExampleCharacter" unique_id=1188159779]
+shape = SubResource("RectangleShape2D_gdwhr")
+
+[node name="Sprite2D" type="Sprite2D" parent="ExampleCharacter" unique_id=1424413345]
+texture = SubResource("PlaceholderTexture2D_m0nlj")
+
+[node name="JumpArcCalculator" parent="ExampleCharacter" unique_id=1011199421 instance=ExtResource("2_5xswu")]
+time_to_peak = 1.01
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1279123065]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=307783713]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_m0nlj")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=373758121]
